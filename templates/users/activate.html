@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block site_title %}Activate{% endblock %}
+
+{% block content %}
+<h3 class="content-title">{{ title }}</h3>
+    <p>
+        {{ description }} 
+    </p>
+    <p>
+        <a class="button button-primary" href="{% url 'login' %}">เข้าสู่ระบบ</a>
+    </p>
+{% endblock %}

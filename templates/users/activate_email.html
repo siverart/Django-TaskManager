@@ -1,0 +1,4 @@
+สวัสดีครับคุณ {{ user.username }},
+กรุณากดลิงก์ด้านล่างเพื่อยืนยันบัญชีของคุณ:
+
+{{ protocal }}://{{ host }}{% url 'activate' uidb64=uidb64 token=token %}

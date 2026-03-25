@@ -56,7 +56,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,11 +76,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'task_manager_django_db',      # ชื่อที่ตั้งใน Workbench
+        'USER': 'root',                 # ปกติจะเป็น root
+        'PASSWORD': 'XPPandaA4X*',    # รหัสผ่าน MySQL ของคุณ
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
-
+PASSWORD_RESET_TIMEOUT = 3600
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -120,5 +124,20 @@ STATIC_URL = 'static/'
 
 
 # AUTH
-
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
+LOGIN_URL = "login"
 AUTH_USER_MODEL = 'users.CustomUser'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'# เมื่อจะใช้งานจริง (เช่น Gmail) ค่อยเปลี่ยนเป็น:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# ... (ตั้งค่าอื่นๆ)
+
+
+AUTHENTICATION_BACKENDS = [
+    					"users.utils.auth_email_backend.EmailBackend",
+   	 				    "django.contrib.auth.backends.ModelBackend"
+					]
+
+

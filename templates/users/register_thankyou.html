@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block site_title %}ขอบคุณสำหรับการสมัครสมาชิก{% endblock %}
+
+{% block content %}
+<h3>ขอบคุณสำหรับการสมัครสมาชิก</h3>
+    <p>
+        กรุณาตรวจสอบอีเมลของท่าน และกดลิงค์เพื่อ Activate account
+    </p>
+    <p>
+        <a class="button button-primary" href="{% url 'login' %}">เข้าสู่ระบบ</a>
+    </p>
+{% endblock %}

@@ -4,6 +4,10 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    # ตอนนี้ยังไม่ต้องใส่ฟิลด์เพิ่มก็ได้ แต่การมี Class นี้ไว้ 
-    # จะทำให้เราเพิ่มฟิลด์ในอนาคตได้ง่ายๆ ครับ
-    pass
+    # ทำให้ Email ต้องไม่ซ้ำกันในระบบ (Unique)
+    email = models.EmailField(unique=True)
+
+     
+
+    def __str__(self):
+        return self.email

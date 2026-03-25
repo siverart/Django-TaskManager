@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block site_title %}หน้าแรก | Task manager{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold text-primary">ยินดีต้อนรับสู่ Task Master!</h1>
+        <p class="col-md-8 fs-4">
+            ที่นี่คือที่ที่คุณสามารถจัดการงานส่วนตัว งานราษฎร์ งานหลวง และฟรีแลนซ์ของคุณได้อย่างเป็นระบบ 
+            เริ่มสร้างรายการงานแรกของคุณได้ทันทีหลังจากเข้าสู่ระบบ
+        </p>
+        
+        {% if not user.is_authenticated %}
+            <hr class="my-4">
+            <p>ยังไม่ได้เป็นสมาชิกใช่ไหม? มาเริ่มต้นจัดการชีวิตให้ง่ายขึ้นกันเถอะ</p>
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg">สมัครสมาชิกตอนนี้</a>
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-sm ms-2">เข้าสู่ระบบ</a>
+        {% else %}
+            <a href="{% url 'task_list' %}" class="btn btn-success btn-lg">ดูรายการงานของคุณ</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col-md-4">
+        <h3>🚀 รวดเร็ว</h3>
+        <p>บันทึกงานได้ทันทีผ่านหน้าเว็บที่ใช้งานง่าย</p>
+    </div>
+    <div class="col-md-4">
+        <h3>🎯 แม่นยำ</h3>
+        <p>มีระบบ Priority 3 ระดับ ช่วยให้คุณโฟกัสงานสำคัญได้ก่อน</p>
+    </div>
+    <div class="col-md-4">
+        <h3>📱 ทุกที่</h3>
+        <p>รองรับการใช้งานผ่านมือถือด้วย Bootstrap 5</p>
+    </div>
+</div>
+{% endblock %}
