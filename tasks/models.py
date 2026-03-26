@@ -9,8 +9,7 @@ class Task(models.Model):
         LOW = 1, "ไม่เร่งด่วน"
 
     class Status(models.TextChoices):
-        TODO = 'todo', "To Do"
-        IN_PROGRESS = 'in_progress', "In Progress"
+        TODO = 'todo', "Todo"
         PENDING = 'pending', "Pending"
         DONE = 'done', "Done"
 

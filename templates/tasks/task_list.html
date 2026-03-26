@@ -4,7 +4,7 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>รายการงานของฉัน</h2>
-        <button class="btn btn-success">+ เพิ่มงานใหม่</button>
+        <a href="{% url 'add_task' %}" class="btn btn-success">+ เพิ่มงานใหม่</a>
     </div>
 
     {% regroup tasks by deadline|date:"d F Y" as task_group %}
@@ -25,35 +25,64 @@
                                 <span class="ms-2">Priority: {{ task.priority }}</span>
                             </div>
                         </div>
-                        
+
                         <div class="d-flex align-items-center gap-2">
-                            <span class="badge {% if task.status == 'Done' %}bg-success{% else %}bg-warning{% endif %}">
-                                {{ task.status }}
-                            </span>
+                            <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle 
+                                    {% if task.status == 'done' %}btn-success
+                                    {% elif task.status == 'pending' %}btn-info text-white
+                                    {% else %}btn-warning{% endif %}" 
+                                    type="button" data-bs-toggle="dropdown">
+                                    {{ task.get_status_display }}
+                                </button>
+                                <ul class="dropdown-menu">
+                                <li>
+                                    <form action="{% url 'update_status' task.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="todo"> <button type="submit" class="dropdown-item">Todo</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form action="{% url 'update_status' task.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="pending"> <button type="submit" class="dropdown-item">Pending</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form action="{% url 'update_status' task.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="done"> <button type="submit" class="dropdown-item">Done</button>
+                                    </form>
+                                </li>
+                            </ul>
+                            </div>
+                            
+                            <a href="{% url 'edit_task' task.id %}" class="btn btn-sm btn-outline-primary">แก้ไข</a>
+
                             <button type="button" class="btn btn-sm btn-outline-danger" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#deleteModal{{ task.id }}">
                                 ลบ
                             </button>
-
-                            <div class="modal fade" id="deleteModal{{ task.id }}" tabindex="-1">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">ยืนยันการลบงาน</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            คุณแน่ใจหรือไม่ว่าต้องการลบงาน <strong>"{{ task.task_name }}"</strong>?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                            
+                        </div>           
+                        <div class="modal fade" id="deleteModal{{ task.id }}" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">ยืนยันการลบงาน</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        คุณแน่ใจหรือไม่ว่าต้องการลบงาน <strong>"{{ task.task_name }}"</strong>?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                                             
-                                            <form action="{% url 'delete_task' task.id %}" method="post">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-danger">ยืนยันการลบ</button>
-                                            </form>
-                                        </div>
+                                        <form action="{% url 'delete_task' task.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">ยืนยันการลบ</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
