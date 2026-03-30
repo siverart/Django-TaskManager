@@ -76,6 +76,7 @@ python manage.py runserver
 
 
 📁 โครงสร้างไฟล์ที่สำคัญ
+
 models.py: กำหนดโครงสร้างตาราง Task (Priority, Status, User Relationship)
 
 views.py: จัดการ Logic CRUD และการเช็คสิทธิ์ get_object_or_404(owner=request.user)
