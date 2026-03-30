@@ -73,3 +73,10 @@ def update_status(request, task_id):
             task.save()
             
     return redirect('task_list')
+
+@login_required
+def task_detail(request: HttpRequest, task_id):
+    task = get_object_or_404(Task, id=task_id, owner=request.user)
+
+    context = {'task': task }
+    return render(request, 'tasks/task_detail.html', context)
