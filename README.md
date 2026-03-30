@@ -4,12 +4,27 @@
 
 ✨ คุณสมบัติของโปรเจกต์ (Features)
 User Authentication: ระบบสมัครสมาชิกและเข้าสู่ระบบ (Login/Logout)
+### หน้าสมัครสมาชิก (Register)
+![Register page](screenshots/register-page.png)
+### หน้าเข้าสู่ระบบ (Login)
+![Login page](screenshots/login-page.png)
 
 Personalized Tasks: ผู้ใช้งานจะเห็นและจัดการได้เฉพาะงานของตัวเองเท่านั้น
 
 CRUD Operations: สามารถ เพิ่ม, ดูรายละเอียด, แก้ไขสถานะ และลบงานได้ครบถ้วน
+### หน้าเพิ่มงาน
+![Add page](screenshots/add-page.png)
+### หน้าแก้ไขงาน
+![Update page](screenshots/update-page.png)
+### หน้าลบงาน
+![Delete page](screenshots/delete-page.png)
+### หน้าดูรายละเอียดงาน
+![Description page](screenshots/description-page.png)
 
 Task Grouping: ระบบจัดกลุ่มงานตามวันที่ (Deadline) โดยอัตโนมัติ
+
+### หน้ารายการงาน (Task List)
+![Task List Page](screenshots/task_list-page.png)
 
 Responsive Design: หน้าตาเว็บปรับเปลี่ยนตามขนาดหน้าจอ (Mobile Friendly) ด้วย Bootstrap
 
