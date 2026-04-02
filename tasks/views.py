@@ -3,7 +3,12 @@ from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 from .models import Task
 from .forms import TaskForm
-
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from .serializers import TaskSerializer
+from tasks import serializers
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 @login_required
@@ -80,3 +85,58 @@ def task_detail(request: HttpRequest, task_id):
 
     context = {'task': task }
     return render(request, 'tasks/task_detail.html', context)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def get_tasks(request):
+
+    # GET
+    if request.method == 'GET':
+        tasks = Task.objects.filter(owner=request.user)
+        serializer = TaskSerializer(tasks, many=True)
+        return Response(serializer.data)
+    
+    # POST
+    elif request.method == 'POST':
+        serializer = TaskSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(owner=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_task_detail(request, pk):
+    task = get_object_or_404(Task, pk=pk, owner=request.user)
+    serializer = TaskSerializer(task)
+    return Response(serializer.data)
+
+
+@api_view(['PUT', 'PATCH'])
+@permission_classes([IsAuthenticated])
+def update_task(request, pk):
+    task = get_object_or_404(Task, pk=pk, owner=request.user)
+
+    if request.method == 'PUT':
+        serializer = TaskSerializer(task, data=request.data)
+
+    elif request.method == 'PATCH':
+        serializer = TaskSerializer(task, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_task(request, pk):
+    task = get_object_or_404(Task, pk=pk, owner=request.user)
+
+    task.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
